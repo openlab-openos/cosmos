@@ -3,6 +3,7 @@ package v16
 import (
 	store "github.com/cosmos/cosmos-sdk/store/types"
 	"github.com/cosmos/gaia/v16/app/upgrades"
+	"github.com/cosmos/gaia/v16/x/globalfee"
 	feemarkettypes "github.com/skip-mev/feemarket/x/feemarket/types"
 )
 
@@ -17,6 +18,9 @@ var Upgrade = upgrades.Upgrade{
 	StoreUpgrades: store.StoreUpgrades{
 		Added: []string{
 			feemarkettypes.ModuleName,
+		},
+		Deleted: []string{
+			globalfee.ModuleName,
 		},
 	},
 }

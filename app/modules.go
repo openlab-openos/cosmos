@@ -58,7 +58,6 @@ import (
 	feemarkettypes "github.com/skip-mev/feemarket/x/feemarket/types"
 
 	gaiaappparams "github.com/cosmos/gaia/v16/app/params"
-	"github.com/cosmos/gaia/v16/x/globalfee"
 	"github.com/cosmos/gaia/v16/x/metaprotocols"
 	metaprotocolstypes "github.com/cosmos/gaia/v16/x/metaprotocols/types"
 )
@@ -113,7 +112,6 @@ var ModuleBasics = module.NewBasicManager(
 	vesting.AppModuleBasic{},
 	pfmrouter.AppModuleBasic{},
 	ica.AppModuleBasic{},
-	globalfee.AppModule{},
 	icsprovider.AppModuleBasic{},
 	consensus.AppModuleBasic{},
 	metaprotocols.AppModuleBasic{},
@@ -150,7 +148,6 @@ func appModules(
 		authzmodule.NewAppModule(appCodec, app.AuthzKeeper, app.AccountKeeper, app.BankKeeper, app.interfaceRegistry),
 		ibc.NewAppModule(app.IBCKeeper),
 		sdkparams.NewAppModule(app.ParamsKeeper),
-		globalfee.NewAppModule(app.GetSubspace(globalfee.ModuleName)),
 		consensus.NewAppModule(appCodec, app.ConsensusParamsKeeper),
 		app.TransferModule,
 		app.ICAModule,
@@ -225,7 +222,6 @@ func orderBeginBlockers() []string {
 		feegrant.ModuleName,
 		paramstypes.ModuleName,
 		vestingtypes.ModuleName,
-		globalfee.ModuleName,
 		feemarkettypes.ModuleName,
 		providertypes.ModuleName,
 		consensusparamtypes.ModuleName,
@@ -263,7 +259,6 @@ func orderEndBlockers() []string {
 		paramstypes.ModuleName,
 		upgradetypes.ModuleName,
 		vestingtypes.ModuleName,
-		globalfee.ModuleName,
 		feemarkettypes.ModuleName,
 		providertypes.ModuleName,
 		consensusparamtypes.ModuleName,
@@ -301,15 +296,13 @@ func orderInitBlockers() []string {
 		paramstypes.ModuleName,
 		upgradetypes.ModuleName,
 		vestingtypes.ModuleName,
-		// The globalfee module should ideally be initialized before the genutil module in theory:
-		// The globalfee antehandler performs checks in DeliverTx, which is called by gentx.
-		// When the global fee > 0, gentx needs to pay the fee. However, this is not expected,
-		// (in our case, the global fee is initialized with an empty value, which might not be a problem
-		// if the globalfee in genesis is not changed.)
-		// To resolve this issue, we should initialize the globalfee module after genutil, ensuring that the global
+		// The feemarket module should ideally be initialized before the genutil module in theory:
+		// The feemarket antehandler performs checks in DeliverTx, which is called by gentx.
+		// When the fee > 0, gentx needs to pay the fee. However, this is not expected.
+		// To resolve this issue, we should initialize the feemarket module after genutil, ensuring that the
 		// min fee is empty when gentx is called.
+		// A similar issue existed for the 'globalfee' module, which was previously used instead of 'feemarket'.
 		// For more details, please refer to the following link: https://github.com/cosmos/gaia/issues/2489
-		globalfee.ModuleName,
 		feemarkettypes.ModuleName,
 		providertypes.ModuleName,
 		consensusparamtypes.ModuleName,
