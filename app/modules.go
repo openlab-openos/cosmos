@@ -1,6 +1,9 @@
 package gaia
 
 import (
+	feemarket "github.com/skip-mev/feemarket/x/feemarket"
+	feemarkettypes "github.com/skip-mev/feemarket/x/feemarket/types"
+
 	pfmrouter "github.com/cosmos/ibc-apps/middleware/packet-forward-middleware/v7/packetforward"
 	pfmroutertypes "github.com/cosmos/ibc-apps/middleware/packet-forward-middleware/v7/packetforward/types"
 	ica "github.com/cosmos/ibc-go/v7/modules/apps/27-interchain-accounts"
@@ -54,8 +57,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/upgrade"
 	upgradeclient "github.com/cosmos/cosmos-sdk/x/upgrade/client"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
-	feemarket "github.com/skip-mev/feemarket/x/feemarket"
-	feemarkettypes "github.com/skip-mev/feemarket/x/feemarket/types"
 
 	gaiaappparams "github.com/cosmos/gaia/v16/app/params"
 	"github.com/cosmos/gaia/v16/x/metaprotocols"
