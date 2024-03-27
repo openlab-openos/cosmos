@@ -21,7 +21,28 @@ func CreateUpgradeHandler(
 			return vm, err
 		}
 
+		err = SetFeeMarketParams(ctx, keepers)
+		if err != nil {
+			return vm, err
+		}
+
 		ctx.Logger().Info("Upgrade complete")
 		return vm, err
 	}
+}
+
+func SetFeeMarketParams(ctx sdk.Context, keepers *keepers.AppKeepers) error {
+	params, err := keepers.FeeMarketKeeper.GetParams(ctx)
+	if err != nil {
+		return err
+	}
+
+	params.Enabled = true
+	params.FeeDenom = "uatom"
+	params.MinBaseFee = sdk.NewInt(1)
+	// TODO:
+	// params.TargetBlockUtilization =
+	// params.MaxBlockUtilization =
+
+	return nil
 }

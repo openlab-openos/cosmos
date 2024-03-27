@@ -75,6 +75,7 @@ var maccPerms = map[string][]string{
 	ibctransfertypes.ModuleName:       {authtypes.Minter, authtypes.Burner},
 	providertypes.ConsumerRewardsPool: nil,
 	feemarkettypes.ModuleName:         nil,
+	feemarkettypes.FeeCollectorName:   nil,
 }
 
 // ModuleBasics defines the module BasicManager is in charge of setting up basic,
