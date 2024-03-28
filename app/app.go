@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 
+	memiavlstore "github.com/crypto-org-chain/cronos/store"
 	"github.com/gorilla/mux"
 	"github.com/rakyll/statik/fs"
 	"github.com/spf13/cast"
@@ -122,6 +123,11 @@ func NewGaiaApp(
 	// App Opts
 	skipGenesisInvariants := cast.ToBool(appOpts.Get(crisis.FlagSkipGenesisInvariants))
 	invCheckPeriod := cast.ToUint(appOpts.Get(server.FlagInvCheckPeriod))
+
+	// SetupMemIAVL only overrides rootmulti store if app.toml has memiavl.enable = true
+	memiavlSdk46Compact := false                    // false: root hash is not compatible with cosmos-sdk 0.46 and before
+	memiavlSupportExportNonSnapshotVersion := false // false: only state-sync snapshots supported on matching memiavl snapshot heights
+	baseAppOptions = memiavlstore.SetupMemIAVL(logger, homePath, appOpts, memiavlSdk46Compact, memiavlSupportExportNonSnapshotVersion, baseAppOptions)
 
 	bApp := baseapp.NewBaseApp(
 		appName,
