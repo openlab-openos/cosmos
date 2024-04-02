@@ -21,7 +21,7 @@ func CreateUpgradeHandler(
 			return vm, err
 		}
 
-		err = SetFeeMarketParams(ctx, keepers)
+		err = ConfigureFeeMarketModule(ctx, keepers)
 		if err != nil {
 			return vm, err
 		}
@@ -31,7 +31,7 @@ func CreateUpgradeHandler(
 	}
 }
 
-func SetFeeMarketParams(ctx sdk.Context, keepers *keepers.AppKeepers) error {
+func ConfigureFeeMarketModule(ctx sdk.Context, keepers *keepers.AppKeepers) error {
 	params, err := keepers.FeeMarketKeeper.GetParams(ctx)
 	if err != nil {
 		return err
@@ -43,6 +43,20 @@ func SetFeeMarketParams(ctx sdk.Context, keepers *keepers.AppKeepers) error {
 	// TODO:
 	// params.TargetBlockUtilization =
 	// params.MaxBlockUtilization =
+	if err := keepers.FeeMarketKeeper.SetParams(ctx, params); err != nil {
+		return err
+	}
+
+	state, err := keepers.FeeMarketKeeper.GetState(ctx)
+	if err != nil {
+		return err
+	}
+
+	state.BaseFee = sdk.NewInt(1)
+
+	if err := keepers.FeeMarketKeeper.SetState(ctx, state); err != nil {
+		return err
+	}
 
 	return nil
 }
