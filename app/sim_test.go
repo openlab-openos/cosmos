@@ -96,6 +96,7 @@ func TestAppStateDeterminism(t *testing.T) {
 				gaia.DefaultNodeHome,
 				encConfig,
 				appOptions,
+				emptyWasmOption,
 				interBlockCacheOpt(),
 				baseapp.SetChainID(AppChainID),
 			)

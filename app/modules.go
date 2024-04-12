@@ -58,6 +58,9 @@ import (
 	upgradeclient "github.com/cosmos/cosmos-sdk/x/upgrade/client"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 
+	wasm "github.com/CosmWasm/wasmd/x/wasm"
+	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
+
 	gaiaappparams "github.com/cosmos/gaia/v16/app/params"
 	"github.com/cosmos/gaia/v16/x/globalfee"
 	"github.com/cosmos/gaia/v16/x/metaprotocols"
@@ -118,6 +121,7 @@ var ModuleBasics = module.NewBasicManager(
 	icsprovider.AppModuleBasic{},
 	consensus.AppModuleBasic{},
 	metaprotocols.AppModuleBasic{},
+	wasm.AppModuleBasic{},
 )
 
 func appModules(
@@ -152,6 +156,7 @@ func appModules(
 		sdkparams.NewAppModule(app.ParamsKeeper),
 		globalfee.NewAppModule(app.GetSubspace(globalfee.ModuleName)),
 		consensus.NewAppModule(appCodec, app.ConsensusParamsKeeper),
+		wasm.NewAppModule(appCodec, &app.AppKeepers.WasmKeeper, app.AppKeepers.StakingKeeper, app.AppKeepers.AccountKeeper, app.AppKeepers.BankKeeper, app.MsgServiceRouter(), app.GetSubspace(wasmtypes.ModuleName)),
 		app.TransferModule,
 		app.ICAModule,
 		app.PFMRouterModule,
@@ -184,6 +189,7 @@ func simulationModules(
 		sdkparams.NewAppModule(app.ParamsKeeper),
 		evidence.NewAppModule(app.EvidenceKeeper),
 		authzmodule.NewAppModule(appCodec, app.AuthzKeeper, app.AccountKeeper, app.BankKeeper, app.interfaceRegistry),
+		wasm.NewAppModule(appCodec, &app.AppKeepers.WasmKeeper, app.AppKeepers.StakingKeeper, app.AppKeepers.AccountKeeper, app.AppKeepers.BankKeeper, app.MsgServiceRouter(), app.GetSubspace(wasmtypes.ModuleName)),
 		ibc.NewAppModule(app.IBCKeeper),
 		app.TransferModule,
 		app.ICAModule,
@@ -230,6 +236,7 @@ func orderBeginBlockers() []string {
 		providertypes.ModuleName,
 		consensusparamtypes.ModuleName,
 		metaprotocolstypes.ModuleName,
+		wasmtypes.ModuleName,
 	}
 }
 
@@ -268,6 +275,7 @@ func orderEndBlockers() []string {
 		providertypes.ModuleName,
 		consensusparamtypes.ModuleName,
 		metaprotocolstypes.ModuleName,
+		wasmtypes.ModuleName,
 	}
 }
 
@@ -314,5 +322,6 @@ func orderInitBlockers() []string {
 		providertypes.ModuleName,
 		consensusparamtypes.ModuleName,
 		metaprotocolstypes.ModuleName,
+		wasmtypes.ModuleName,
 	}
 }
