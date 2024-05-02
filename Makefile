@@ -317,3 +317,12 @@ proto-update-deps:
 	$(DOCKER) run --rm -v $(CURDIR)/proto:/workspace --workdir /workspace $(protoImageName) buf mod update
 
 .PHONY: proto-all proto-gen proto-swagger-gen proto-format proto-lint proto-check-breaking proto-update-deps
+
+###############################################################################
+###                          Shell Completion Plugin                        ###
+###############################################################################
+gen-completion: build
+	@echo "Generating completion plugin for ohmyzsh"
+	./build/gaiad completion > ./contrib/shell_completion/_gaiad
+
+.PHONY: build
