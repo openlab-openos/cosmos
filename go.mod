@@ -11,11 +11,11 @@ require (
 	github.com/Stride-Labs/ibc-rate-limiting v1.0.1
 	github.com/cometbft/cometbft v0.37.5
 	github.com/cometbft/cometbft-db v0.11.0
-	github.com/cosmos/cosmos-sdk v0.47.13-ics-lsm
+	github.com/cosmos/cosmos-sdk v0.47.13
 	github.com/cosmos/go-bip39 v1.0.0
 	github.com/cosmos/gogoproto v1.4.10
 	github.com/cosmos/ibc-apps/middleware/packet-forward-middleware/v7 v7.1.3
-	github.com/cosmos/ibc-go/v7 v7.4.0
+	github.com/cosmos/ibc-go/v7 v7.8.0
 	github.com/cosmos/interchain-security/v4 v4.2.0
 	github.com/google/gofuzz v1.2.0
 	github.com/gorilla/mux v1.8.1
@@ -124,7 +124,7 @@ require (
 	github.com/gtank/merlin v0.1.1 // indirect
 	github.com/gtank/ristretto255 v0.1.2 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
-	github.com/hashicorp/go-getter v1.7.4 // indirect
+	github.com/hashicorp/go-getter v1.7.5 // indirect
 	github.com/hashicorp/go-immutable-radix v1.3.1 // indirect
 	github.com/hashicorp/go-safetemp v1.0.0 // indirect
 	github.com/hashicorp/go-version v1.6.0 // indirect
